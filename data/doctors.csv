@@ -1,0 +1,11 @@
+id,name,specialty,working_days,start_time,end_time,description
+1,Dr. Ananya Rao,General Medicine,Mon-Sat,09:00,17:00,Fictional family physician for everyday health concerns and routine check-ups.
+2,Dr. Arjun Mehta,Cardiology,Mon-Fri,10:00,16:00,Fictional heart specialist focused on prevention and long-term care.
+3,Dr. Priya Nair,Dermatology,Mon-Fri,09:30,17:30,Fictional skin specialist for common skin and hair concerns.
+4,Dr. Kiran Shah,Pediatrics,Mon-Sat,09:00,15:00,Fictional child health specialist for check-ups and vaccinations.
+5,Dr. Meera Iyer,Orthopedics,Mon-Fri,11:00,18:00,Fictional bone and joint specialist for mobility and sports injuries.
+6,Dr. Rahul Verma,Neurology,Tue-Sat,10:00,16:00,Fictional specialist for headaches and nervous system concerns.
+7,Dr. Sneha Kulkarni,Gynecology,Mon-Fri,09:00,16:00,Fictional women's health specialist for routine care and guidance.
+8,Dr. Vikram Desai,ENT,Mon-Sat,10:00,18:00,"Fictional ear, nose and throat specialist."
+9,Dr. Isha Banerjee,Ophthalmology,Mon-Fri,09:00,15:30,Fictional eye specialist for vision tests and eye care.
+10,Dr. Rohan Das,Endocrinology,Wed-Sat,11:00,17:00,Fictional hormone and metabolism specialist.

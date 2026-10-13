@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: careconnect
+  namespace: careconnect
+  labels:
+    app: careconnect
+spec:
+  type: ClusterIP          # not exposed outside the cluster; use kubectl port-forward for demos
+  selector:
+    app: careconnect
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

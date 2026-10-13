@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Book Appointment{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container narrow">
+    <h1 class="page-title">Book an appointment</h1>
+    <p class="section-sub">Use a fictional name and a fictional email such as <code>test.patient@example.com</code>.</p>
+
+    {% if errors %}
+    <div class="alert alert-error" role="alert">Please fix the highlighted fields and submit again.</div>
+    {% endif %}
+
+    <form class="card form-card" id="booking-form" method="post" action="{{ url_for('book_appointment') }}" novalidate
+          data-min-date="{{ min_date }}" data-max-date="{{ max_date }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <div class="field {% if errors.patient_name %}has-error{% endif %}">
+        <label for="patient_name">Patient name (fictional)</label>
+        <input id="patient_name" name="patient_name" type="text" maxlength="80" required autocomplete="off"
+               value="{{ form.get('patient_name', '') }}" placeholder="e.g. Test Patient">
+        <p class="error-text" data-error-for="patient_name">{{ errors.patient_name or '' }}</p>
+      </div>
+
+      <div class="field {% if errors.email %}has-error{% endif %}">
+        <label for="email">Email (fictional)</label>
+        <input id="email" name="email" type="email" maxlength="254" required autocomplete="off"
+               value="{{ form.get('email', '') }}" placeholder="test.patient@example.com">
+        <p class="error-text" data-error-for="email">{{ errors.email or '' }}</p>
+      </div>
+
+      <div class="field {% if errors.doctor_id %}has-error{% endif %}">
+        <label for="doctor_id">Doctor</label>
+        <select id="doctor_id" name="doctor_id" required>
+          <option value="">Choose a doctor</option>
+          {% for d in doctors %}
+          <option value="{{ d.id }}" data-start="{{ d.start_time }}" data-end="{{ d.end_time }}" data-days="{{ d.working_days }}"
+                  {% if form.get('doctor_id', '')|string == d.id|string %}selected{% endif %}>{{ d.name }} - {{ d.specialty }}</option>
+          {% endfor %}
+        </select>
+        <p class="error-text" data-error-for="doctor_id">{{ errors.doctor_id or '' }}</p>
+      </div>
+
+      <div class="row">
+        <div class="field {% if errors.appointment_date %}has-error{% endif %}">
+          <label for="appointment_date">Date</label>
+          <input id="appointment_date" name="appointment_date" type="date" required min="{{ min_date }}" max="{{ max_date }}"
+                 value="{{ form.get('appointment_date', '') }}">
+          <p class="error-text" data-error-for="appointment_date">{{ errors.appointment_date or '' }}</p>
+        </div>
+        <div class="field {% if errors.appointment_time %}has-error{% endif %}">
+          <label for="appointment_time">Time</label>
+          <select id="appointment_time" name="appointment_time" required>
+            <option value="">Choose a time</option>
+            {% for t in time_options %}
+            <option value="{{ t }}" {% if form.get('appointment_time', '') == t %}selected{% endif %}>{{ t }}</option>
+            {% endfor %}
+          </select>
+          <p class="error-text" data-error-for="appointment_time">{{ errors.appointment_time or '' }}</p>
+        </div>
+      </div>
+
+      <div class="field {% if errors.reason %}has-error{% endif %}">
+        <label for="reason">Reason for visit (optional, generic text only)</label>
+        <textarea id="reason" name="reason" rows="3" maxlength="200" placeholder="e.g. Routine check-up">{{ form.get('reason', '') }}</textarea>
+        <p class="error-text" data-error-for="reason">{{ errors.reason or '' }}</p>
+      </div>
+
+      <button class="btn btn-primary btn-lg btn-block" type="submit">Confirm appointment</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

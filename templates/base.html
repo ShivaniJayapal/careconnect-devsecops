@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}CareConnect{% endblock %} | CareConnect Patient Appointment Portal</title>
+  <meta name="description" content="CareConnect is a fictional healthcare appointment portal built for a DevSecOps college demo.">
+  <link rel="icon" href="{{ url_for('static', filename='img/logo.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="demo-banner">Educational demo: all doctors and patients are fictional. Do not enter real personal or medical information.</div>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" width="34" height="34">
+        <span>Care<strong>Connect</strong></span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
+      <nav class="nav-links" id="nav-links" aria-label="Main">
+        <a href="{{ url_for('index') }}" {% if request.endpoint == 'index' %}aria-current="page"{% endif %}>Home</a>
+        <a href="{{ url_for('book_appointment') }}" {% if request.endpoint == 'book_appointment' %}aria-current="page"{% endif %}>Book Appointment</a>
+        <a href="{{ url_for('appointments') }}" {% if request.endpoint == 'appointments' %}aria-current="page"{% endif %}>Appointments</a>
+        <a href="{{ url_for('about') }}" {% if request.endpoint == 'about' %}aria-current="page"{% endif %}>About</a>
+        <a class="btn btn-primary btn-sm" href="{{ url_for('book_appointment') }}">Book now</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="container flash-area">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="status">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand brand-footer"><img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" width="30" height="30"><span>Care<strong>Connect</strong></span></div>
+        <p>A fictional appointment portal created for a DevSecOps mini-project. It is not a medical records system and must not be used with real patient data.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('book_appointment') }}">Book Appointment</a>
+        <a href="{{ url_for('appointments') }}">Appointments</a>
+        <a href="{{ url_for('about') }}">About</a>
+      </div>
+      <div>
+        <h4>Project</h4>
+        <span>Flask, Docker, Jenkins</span>
+        <span>Bandit, Trivy, Kubernetes</span>
+        <span>Prometheus, Grafana</span>
+      </div>
+    </div>
+    <div class="container footer-bottom">&copy; CareConnect demo. Fictional content only.</div>
+  </footer>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

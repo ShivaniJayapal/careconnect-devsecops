@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="pill">Fictional demo healthcare portal</span>
+      <h1>Care that fits your schedule.</h1>
+      <p class="lead">Choose a doctor, pick a time, and confirm your appointment in under a minute. CareConnect keeps booking simple and clear.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary btn-lg" href="{{ url_for('book_appointment') }}">Book Appointment</a>
+        <a class="btn btn-ghost btn-lg" href="#doctors">Meet our doctors</a>
+      </div>
+      <ul class="hero-stats">
+        <li><strong>{{ doctors|length }}</strong><span>Specialists</span></li>
+        <li><strong>30 min</strong><span>Appointment slots</span></li>
+        <li><strong>24/7</strong><span>Online booking</span></li>
+      </ul>
+    </div>
+    <div class="hero-art">
+      <img src="{{ url_for('static', filename='img/hero.svg') }}" alt="Illustration of a doctor's desk with a medical cross" width="520" height="420">
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="container">
+    <h2 class="section-title">Our services</h2>
+    <p class="section-sub">Everything below is fictional demonstration content.</p>
+    <div class="grid grid-3">
+      <article class="card service"><div class="icon">&#10010;</div><h3>General consultation</h3><p>Routine check-ups and advice for everyday health questions.</p></article>
+      <article class="card service"><div class="icon">&#9829;</div><h3>Heart health</h3><p>Preventive cardiology visits and follow-up care.</p></article>
+      <article class="card service"><div class="icon">&#9728;</div><h3>Skin care</h3><p>Dermatology appointments for common skin concerns.</p></article>
+      <article class="card service"><div class="icon">&#9786;</div><h3>Child health</h3><p>Pediatric visits, growth checks and vaccinations.</p></article>
+      <article class="card service"><div class="icon">&#9737;</div><h3>Eye and ENT</h3><p>Vision tests and ear, nose and throat care.</p></article>
+      <article class="card service"><div class="icon">&#9881;</div><h3>Specialist referrals</h3><p>Orthopedics, neurology, endocrinology and more.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="doctors">
+  <div class="container">
+    <h2 class="section-title">Our doctors</h2>
+    <p class="section-sub">All doctor profiles are fictional and loaded from a local dataset.</p>
+    <div class="grid grid-4">
+      {% for d in doctors %}
+      <article class="card doctor">
+        <div class="avatar avatar-{{ loop.index0 % 5 }}" aria-hidden="true">{{ d.name.replace('Dr. ', '')[0] }}</div>
+        <h3>{{ d.name }}</h3>
+        <p class="specialty">{{ d.specialty }}</p>
+        <p class="muted small">{{ d.working_days }}, {{ d.start_time }} to {{ d.end_time }}</p>
+        <p class="small">{{ d.description }}</p>
+        <a class="btn btn-outline btn-sm" href="{{ url_for('book_appointment', doctor=d.id) }}">Book with {{ d.name.split()[1] }}</a>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="steps">
+  <div class="container">
+    <h2 class="section-title">How booking works</h2>
+    <div class="grid grid-4">
+      <div class="step"><span class="step-no">1</span><h3>Choose a doctor</h3><p>Pick the specialty you need.</p></div>
+      <div class="step"><span class="step-no">2</span><h3>Select date and time</h3><p>See only slots the doctor offers.</p></div>
+      <div class="step"><span class="step-no">3</span><h3>Add your details</h3><p>Use a fictional name and email.</p></div>
+      <div class="step"><span class="step-no">4</span><h3>Get confirmation</h3><p>Review or cancel in Appointments.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container cta-inner">
+    <h2>Ready to try the booking flow?</h2>
+    <a class="btn btn-light btn-lg" href="{{ url_for('book_appointment') }}">Book Appointment</a>
+  </div>
+</section>
+{% endblock %}

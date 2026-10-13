@@ -1,0 +1,17 @@
+# OPTIONAL: only works if the Prometheus Operator (CRDs) is installed in the cluster.
+# Without the operator, use the static scrape config in monitoring/prometheus/prometheus.yml instead.
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: careconnect
+  namespace: careconnect
+  labels:
+    app: careconnect
+spec:
+  selector:
+    matchLabels:
+      app: careconnect
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s

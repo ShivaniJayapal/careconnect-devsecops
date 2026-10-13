@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: careconnect
+  namespace: careconnect
+  labels:
+    app: careconnect
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: careconnect
+  template:
+    metadata:
+      labels:
+        app: careconnect
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: careconnect
+          # Jenkins replaces IMAGE_PLACEHOLDER with the exact tag it built and scanned.
+          image: IMAGE_PLACEHOLDER
+          imagePullPolicy: IfNotPresent   # tags are unique per build, so a cached tag is always the right image
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: careconnect-secret
+                  key: SECRET_KEY
+            - name: DATABASE_PATH
+              value: /app/instance/careconnect.db
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: data
+              mountPath: /app/instance
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: data
+          emptyDir: {}      # demo data is lost when the pod is replaced (fictional data only)
+        - name: tmp
+          emptyDir: {}

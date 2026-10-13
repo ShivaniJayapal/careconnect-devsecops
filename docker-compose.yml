@@ -1,0 +1,21 @@
+# Local run of the container (Docker Desktop). Not used by Jenkins.
+# Create a .env file next to this file (never commit it):  SECRET_KEY=<random value>
+services:
+  careconnect:
+    build: .
+    image: careconnect:local
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in a local .env file}
+    read_only: true
+    tmpfs:
+      - /tmp
+    volumes:
+      - careconnect-data:/app/instance
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+volumes:
+  careconnect-data:

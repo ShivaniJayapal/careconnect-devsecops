@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Appointments{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <h1 class="page-title">Appointments</h1>
+    <div class="alert alert-info">Local educational demo: this list is visible to everyone who opens the page. A real system would require sign-in and show each patient only their own records.</div>
+
+    {% if appointments %}
+    <div class="card table-card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>Patient (fictional)</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            {% for a in appointments %}
+            <tr>
+              <td>{{ a.id }}</td>
+              <td>{{ a.patient_name }}<div class="muted small">{{ a.email }}</div>{% if a.reason %}<div class="muted small">{{ a.reason }}</div>{% endif %}</td>
+              <td>{{ a.doctor_name }}</td>
+              <td>{{ a.appointment_date }}</td>
+              <td>{{ a.appointment_time }}</td>
+              <td><span class="badge badge-{{ a.status|lower }}">{{ a.status }}</span></td>
+              <td>
+                {% if a.status == 'Booked' %}
+                <form method="post" action="{{ url_for('cancel', appointment_id=a.id) }}">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  <button class="btn btn-danger btn-sm" type="submit">Cancel</button>
+                </form>
+                {% else %}<span class="muted small">None</span>{% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="card empty">
+      <h3>No appointments yet</h3>
+      <p>Book a demo appointment to see it listed here.</p>
+      <a class="btn btn-primary" href="{{ url_for('book_appointment') }}">Book Appointment</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

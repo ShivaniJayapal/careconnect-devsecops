@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container narrow">
+    <h1 class="page-title">About CareConnect</h1>
+    <div class="card prose">
+      <p>CareConnect is a <strong>fictional</strong> patient appointment portal built as a college mini-project on secure DevOps (DevSecOps) in a healthcare setting.</p>
+      <p>The goal is not the medical content. The goal is to show how a small web application is tested, security scanned, packaged into a container, deployed to Kubernetes and monitored automatically.</p>
+      <h3>What this demo is</h3>
+      <ul>
+        <li>A Flask application with validated forms, CSRF protection and secure headers.</li>
+        <li>A local dataset of fictional doctors.</li>
+        <li>A pipeline: GitHub, Jenkins, tests, Bandit, Docker, Trivy, Kubernetes, Prometheus and Grafana.</li>
+      </ul>
+      <h3>What this demo is not</h3>
+      <ul>
+        <li>It is not a production medical records system.</li>
+        <li>It has no user accounts, encryption at rest, audit logging or regulatory compliance work.</li>
+        <li>Never enter real names, emails or health information.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}

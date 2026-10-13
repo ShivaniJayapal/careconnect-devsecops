@@ -1,0 +1,9 @@
+# Bandit configuration. Test code is excluded because pytest uses `assert` by design.
+exclude_dirs:
+  - .venv
+  - venv
+  - tests
+  - reports
+  - k8s
+  - monitoring
+  - .git
